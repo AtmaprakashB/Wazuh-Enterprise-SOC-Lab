@@ -1,0 +1,54 @@
+                    04 - ATTACK & DETECTION FLOW
+
+                          Arch Linux
+                     (Red Team / Attacker)
+                               │
+        ┌──────────────────────┼──────────────────────┐
+        │                      │                      │
+        ▼                      ▼                      ▼
+ Password Spray         Kerberoasting         Lateral Movement
+        │                      │                      │
+        ▼                      ▼                      ▼
+
+               GOAD Active Directory Environment
+
+ ┌──────────┬──────────┬──────────┬──────────┬──────────┬──────────┐
+ │  DC01    │  DC02    │  DC03    │  SRV02   │  SRV03   │ Ubuntu   │
+ └──────────┴──────────┴──────────┴──────────┴──────────┴──────────┘
+        │          │          │          │          │
+        │          │          │          │          │
+        └──────────┴──────────┴──────────┴──────────┘
+                               │
+                               ▼
+                    Security Telemetry Generated
+───────────────────────────────────────────────────────────
+• Windows Event Logs
+• Sysmon Events
+• Process Creation
+• PowerShell Logs
+• Authentication Events
+• DNS Events
+• File Integrity Monitoring
+• OPNsense Firewall Logs
+• Suricata IDS Alerts
+───────────────────────────────────────────────────────────
+                               │
+                               ▼
+                       Wazuh Manager
+                               │
+        ┌──────────────┬──────────────┬──────────────┐
+        ▼              ▼              ▼
+ Detection Rules   MITRE Mapping   Correlation
+        │              │              │
+        └──────────────┴──────────────┘
+                      ▼
+              Security Alerts
+                      ▼
+            Wazuh Dashboard
+                      ▼
+          Incident Investigation
+                      ▼
+        IOC Collection • Timeline
+       Process Tree • Network Events
+                      ▼
+              Incident Response
