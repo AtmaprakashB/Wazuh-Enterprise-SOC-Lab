@@ -180,8 +180,8 @@ DC01   DC02            DC03          SRV02       SRV03
 | DC03 | 10.10.14.12 |
 | SRV02 | 10.10.14.22 |
 | SRV03 | 10.10.14.23 |
-| Ubuntu Linux | 10.10.14.30 |
-| Arch Linux | 10.10.14.40 |
+| Ubuntu Linux | 10.10.14.45 |
+| Arch Linux | 10.10.14.1 |
 
 ---
 
