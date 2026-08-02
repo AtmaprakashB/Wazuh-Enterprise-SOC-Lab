@@ -1,0 +1,62 @@
+                                      Internet
+                                          │
+                                  Home Router / ISP
+                                   192.168.31.1/24
+                                          │
+        ┌─────────────────────────────────┴─────────────────────────────────┐
+        │                                                                   │
+        │                    Management Network                             │
+        │                      192.168.31.0/24                              │
+        │                                                                   │
+        │    ┌────────────────────────────────────────────────────────┐      │
+        │    │ Ubuntu 24.04 LTS                                      │      │
+        │    │ IP: 192.168.31.28                                     │      │
+        │    │--------------------------------------------------------│      │
+        │    │ • Wazuh Manager                                       │      │
+        │    │ • Wazuh Indexer                                       │      │
+        │    │ • Wazuh Dashboard                                     │      │
+        │    │ • Syslog Receiver (UDP 514)                           │      │
+        │    └────────────────────────────────────────────────────────┘      │
+        │                                                                   │
+        └──────────────────────────────┬────────────────────────────────────┘
+                                       │
+                              WAN: 192.168.31.63
+                         ┌─────────────────────────────┐
+                         │        OPNsense             │
+                         │-----------------------------│
+                         │ Firewall                    │
+                         │ NAT                         │
+                         │ DHCP                        │
+                         │ Suricata IDS                │
+                         │ Remote Syslog → Wazuh       │
+                         └──────────────┬──────────────┘
+                                       │
+                              LAN: 10.10.14.254
+                                       │
+                     Internal Lab Network (10.10.14.0/24)
+──────────────────────────────────────────────────────────────────────────────────────────
+
+   ┌────────────┐  ┌────────────┐  ┌────────────┐  ┌────────────┐  ┌────────────┐
+   │ DC01       │  │ DC02       │  │ DC03       │  │ SRV02      │  │ SRV03      │
+   │KingsLanding│  │Winterfell  │  │Meereen     │  │CastleBlack │  │Braavos     │
+   │Windows     │  │Windows     │  │Windows     │  │Windows     │  │Windows     │
+   │Wazuh Agent │  │Wazuh Agent │  │Wazuh Agent │  │Wazuh Agent │  │Wazuh Agent │
+   └────────────┘  └────────────┘  └────────────┘  └────────────┘  └────────────┘
+
+         ┌──────────────────────┐                 ┌──────────────────────┐
+         │ Ubuntu Linux         │                 │ Arch Linux           │
+         │ Wazuh Agent          │                 │ Red Team / Attacker  │
+         └──────────────────────┘                 └──────────────────────┘
+
+──────────────────────────────────────────────────────────────────────────────────────────
+
+                    Security Telemetry Collected by Wazuh
+
+      • Windows Event Logs
+      • Sysmon
+      • File Integrity Monitoring
+      • Active Directory Events
+      • OPNsense Firewall Logs
+      • Suricata Alerts
+      • Linux Logs
+      • Syslog
