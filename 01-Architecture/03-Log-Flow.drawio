@@ -1,0 +1,43 @@
+                         03 - LOG FLOW
+
+                    ┌──────────────────────────┐
+                    │     Ubuntu 24.04 LTS     │
+                    │      192.168.31.28       │
+                    │──────────────────────────│
+                    │      Wazuh Manager       │
+                    │      Wazuh Indexer       │
+                    │      Wazuh Dashboard     │
+                    └─────────────▲────────────┘
+                                  │
+                                  │
+         ┌────────────────────────┼────────────────────────┐
+         │                        │                        │
+         │                        │                        │
+         │                        │                        │
+┌────────┴────────┐     ┌─────────┴─────────┐     ┌────────┴─────────┐
+│   OPNsense      │     │ Windows Servers   │     │ Ubuntu Linux     │
+│                 │     │                   │     │                  │
+│ Firewall Logs   │     │ Wazuh Agent       │     │ Wazuh Agent      │
+│ DHCP Logs       │     │ Windows Events    │     │ Syslog           │
+│ VPN Logs        │     │ Sysmon            │     │ Auditd           │
+│ Suricata        │     │ FIM               │     │ FIM              │
+│ Syslog UDP514   │     │ Auth Logs         │     │                  │
+└────────▲────────┘     └────────▲──────────┘     └────────▲─────────┘
+         │                       │                         │
+         │                       │                         │
+         └──────────────┬────────┴──────────────┬──────────┘
+                        │                       │
+                        ▼                       ▼
+
+              ┌──────────────────────────────────────┐
+              │      Security Events in Wazuh        │
+              │--------------------------------------│
+              │ • Firewall Events                    │
+              │ • Authentication                     │
+              │ • Sysmon                             │
+              │ • File Integrity Monitoring          │
+              │ • Process Creation                   │
+              │ • DNS Events                         │
+              │ • Suricata IDS Alerts                │
+              │ • Linux Logs                         │
+              └──────────────────────────────────────┘
