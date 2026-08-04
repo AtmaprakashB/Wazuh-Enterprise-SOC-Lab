@@ -1,187 +1,272 @@
-# 01 - Initial Reconnaissance
+# Initial Reconnaissance
 
 ## Overview
 
-Initial Reconnaissance is the first phase of the attack simulation where an attacker gathers information about the target environment after gaining access to the internal network. The objective is to identify systems, services, Active Directory infrastructure, network shares, and domain information that can be used during later attack stages.
+Initial reconnaissance is the first phase of the attack lifecycle where an attacker gathers information about the target environment before attempting exploitation. The objective is to identify live hosts, open ports, Active Directory services, SMB shares, users, domain information, and trust relationships that can be leveraged during later attack stages.
 
-This lab simulates common reconnaissance techniques in a hybrid enterprise environment and validates that the generated telemetry is collected by Wazuh for detection, threat hunting, and incident response.
+This simulation was performed against the Wazuh Enterprise SOC Lab to validate endpoint telemetry collection and demonstrate how reconnaissance activities are captured by Wazuh.
 
 ---
 
 # Objectives
 
-- Simulate attacker reconnaissance activities
-- Discover Windows and Linux assets
-- Enumerate Active Directory services
-- Generate telemetry for Wazuh
-- Validate log collection and visibility
-- Map reconnaissance activities to MITRE ATT&CK
-
----
-
-# Lab Environment
-
-| Component | Purpose |
-|-----------|----------|
-| ARCH | Attacker Machine |
-| Windows Domain Controllers | Reconnaissance Target |
-| Windows Member Servers | Reconnaissance Target |
-| Ubuntu Server | Linux Target |
-| OPNsense | Network Firewall |
-| Wazuh Manager | Log Collection & Analysis |
-| Wazuh Dashboard | Investigation |
-| Sysmon | Windows Telemetry |
-
----
-
-# Attack Scenario
-
-An attacker has obtained access to the internal enterprise network and begins reconnaissance to understand the environment before attempting credential attacks or privilege escalation.
-
-The attacker performs:
-
-- Network discovery
-- SMB enumeration
-- Domain enumeration
-- LDAP enumeration
-- DNS enumeration
-- Active Directory relationship mapping
-
-Each activity generates telemetry that is collected by Wazuh and later analyzed during the Threat Hunting and Incident Response phases.
-
----
-
-# Attack Workflow
-
-```text
-Attacker (ARCH)
-        │
-        ▼
-Network Discovery
-        │
-        ▼
-SMB Enumeration
-        │
-        ▼
-Domain Enumeration
-        │
-        ▼
-LDAP Enumeration
-        │
-        ▼
-DNS Enumeration
-        │
-        ▼
-BloodHound Collection
-        │
-        ▼
-Telemetry Generated
-        │
-        ▼
-Wazuh Detection
-        │
-        ▼
-Threat Hunting
-        │
-        ▼
-Incident Response
-```
-
----
-
-# Attack Simulations
-
-The following reconnaissance activities are performed during this phase.
-
-| Activity | Description |
-|----------|-------------|
-| Network Discovery | Identify live hosts and exposed services |
-| SMB Enumeration | Enumerate SMB services, domains, and shares |
-| Domain Enumeration | Discover Active Directory users and domain information |
-| LDAP Enumeration | Enumerate Active Directory objects |
-| DNS Enumeration | Enumerate Active Directory DNS records |
-| BloodHound Collection | Collect Active Directory relationship data |
-
----
-
-# Expected Telemetry
-
-The attack activities generate telemetry from multiple sources.
-
-| Source | Expected Telemetry |
-|--------|--------------------|
-| OPNsense | Network connections and scan activity |
-| Windows Security Logs | Authentication and service activity |
-| Sysmon | Process creation events |
-| Linux Syslog | SSH and system activity |
-| Wazuh | Collected events, alerts, and searchable telemetry |
-
-> **Note:** Not every reconnaissance activity will generate a high-severity alert. Many reconnaissance techniques are primarily useful for threat hunting and correlation.
+- Identify live hosts within the enterprise network.
+- Enumerate exposed network services.
+- Enumerate SMB services and shared resources.
+- Discover Active Directory users and domain information.
+- Enumerate LDAP objects.
+- Perform DNS enumeration.
+- Collect Active Directory relationship data using RustHound.
+- Validate that reconnaissance activity generates endpoint telemetry in Wazuh.
 
 ---
 
 # MITRE ATT&CK Mapping
 
-| Activity | Technique |
-|----------|-----------|
-| Network Discovery | T1046 – Network Service Scanning |
-| SMB Enumeration | T1018 – Remote System Discovery |
-| Domain Enumeration | T1087.002 – Domain Account Discovery |
-| LDAP Enumeration | T1087.002 – Domain Account Discovery |
-| DNS Enumeration | T1018 – Remote System Discovery |
-| BloodHound Collection | T1069.002 – Permission Groups Discovery |
-| BloodHound Collection | T1482 – Domain Trust Discovery |
+| Technique | ID |
+|-----------|----|
+| Active Scanning | T1595 |
+| Network Service Discovery | T1046 |
+| System Network Configuration Discovery | T1016 |
+| Remote System Discovery | T1018 |
+| Domain Trust Discovery | T1482 |
+| Account Discovery | T1087 |
+| Permission Groups Discovery | T1069 |
 
 ---
 
-# Detection Validation
+# Lab Environment
 
-During this lab, verify that:
-
-- Reconnaissance activity is visible in the Wazuh Dashboard.
-- Relevant logs are successfully collected.
-- Events are searchable for threat hunting.
-- Detection rules trigger where applicable.
-- Telemetry is available for incident investigation.
-
----
-
-# Evidence Collection
-
-Capture screenshots for:
-
-1. Network Discovery
-2. SMB Enumeration
-3. Domain Enumeration
-4. LDAP Enumeration
-5. DNS Enumeration
-6. BloodHound Collection
-7. Wazuh Dashboard
-8. Event Details
-9. Threat Hunting Results
-
-Store all screenshots in:
-
-```text
-10-Attack-Simulation/Screenshots/
-```
+| Component | Description |
+|-----------|-------------|
+| SIEM | Wazuh |
+| Firewall | OPNsense |
+| Endpoint Monitoring | Sysmon |
+| Attacker | Arch Linux |
+| Target | Active Directory Lab |
+| Domain Controllers | Windows Server |
+| Member Servers | Windows Server |
+| Linux Server | Ubuntu |
 
 ---
 
-# Related Modules
+# Reconnaissance Tools
 
-This attack simulation supports the following project modules:
-
-- **11-Threat-Hunting**
-- **12-Incident-Response**
-
-The telemetry generated during this phase will be used to perform threat hunting, investigate alerts, and validate detection capabilities.
+- Nmap
+- NetExec
+- enum4linux
+- ldapsearch
+- DNS enumeration utilities
+- RustHound
 
 ---
 
-# Key Takeaways
+# Attack Activities
 
-- Initial reconnaissance is one of the earliest phases of an attack lifecycle.
-- Enumeration activities reveal valuable information about enterprise infrastructure.
-- Wazuh collects telemetry generated during reconnaissance, enabling analysts to identify suspicious behavior.
-- Reconnaissance telemetry provides the foundation for threat hunting and incident response throughout the remainder of the project.
+## 1. Network Discovery
+
+Performed host discovery and service enumeration using Nmap.
+
+**Purpose**
+
+- Discover live systems
+- Identify open ports
+- Identify running services
+
+---
+
+## 2. SMB Enumeration
+
+Enumerated SMB services using NetExec.
+
+**Purpose**
+
+- Identify accessible SMB services
+- Determine domain membership
+- Identify operating systems
+
+---
+
+## 3. User Enumeration
+
+Performed Active Directory user enumeration using enum4linux.
+
+**Purpose**
+
+- Discover domain users
+- Enumerate security information
+
+---
+
+## 4. SMB Share Enumeration
+
+Enumerated available SMB shares.
+
+**Purpose**
+
+- Identify accessible shared folders
+- Discover potential sensitive data
+
+---
+
+## 5. LDAP Enumeration
+
+Enumerated Active Directory objects through LDAP.
+
+**Purpose**
+
+- Discover users
+- Discover groups
+- Discover computers
+- Gather domain information
+
+---
+
+## 6. DNS Enumeration
+
+Performed DNS enumeration.
+
+**Purpose**
+
+- Identify DNS records
+- Identify domain controllers
+- Discover additional hosts
+
+---
+
+## 7. Active Directory Relationship Collection
+
+Collected Active Directory relationship data using RustHound.
+
+**Purpose**
+
+- Identify privilege relationships
+- Enumerate attack paths
+- Prepare for BloodHound analysis
+
+---
+
+# Wazuh Detection
+
+After executing reconnaissance activities, Wazuh successfully collected endpoint telemetry generated by Windows systems through Sysmon.
+
+Observed telemetry included:
+
+- Windows process creation events
+- Windows authentication events
+- Sysmon event collection
+- Security event correlation
+- Threat Hunting events
+
+**Note**
+
+Because the attacker and Windows hosts are deployed on the same Host-Only VMware network, reconnaissance traffic is exchanged directly between endpoints. As a result, these activities are primarily observed through endpoint telemetry (Sysmon and Windows Event Logs collected by Wazuh) rather than firewall traffic traversing OPNsense.
+
+---
+
+# Evidence
+
+## Attack Evidence
+
+- Nmap network scan
+- SMB enumeration
+- User enumeration
+- SMB share enumeration
+- LDAP enumeration
+- DNS enumeration
+- RustHound collection
+
+## Wazuh Evidence
+
+- Wazuh Dashboard Overview
+- Sysmon Threat Hunting Events
+
+---
+
+# Screenshots
+
+## Network Discovery
+
+![Nmap](../Screenshots/01-Nmap-Initial-Scan.png)
+
+---
+
+## SMB Enumeration
+
+![SMB Enumeration](../Screenshots/02-NetExec-SMB-Enumeration.png)
+
+---
+
+## User Enumeration
+
+![User Enumeration](../Screenshots/03-enum4linux-User-Enumeration.png)
+
+---
+
+## SMB Shares
+
+![SMB Shares](../Screenshots/04-NetExec-SMB-Shares.png)
+
+---
+
+## LDAP Enumeration
+
+![LDAP Enumeration](../Screenshots/05-LDAP-Enumeration.png)
+
+---
+
+## DNS Enumeration
+
+![DNS Enumeration](../Screenshots/06-DNS-Enumeration.png)
+
+---
+
+## RustHound Collection
+
+![RustHound](../Screenshots/07-RustHound-Collection.png)
+
+---
+
+## Wazuh Dashboard
+
+![Dashboard](../Screenshots/08-Wazuh-Dashboard-Overview.png)
+
+---
+
+## Wazuh Threat Hunting Events
+
+![Threat Hunting](../Screenshots/09-Wazuh-Sysmon-Reconnaissance-Events.png)
+
+---
+
+# Detection Summary
+
+| Activity | Status |
+|----------|--------|
+| Network Discovery | ✅ Completed |
+| SMB Enumeration | ✅ Completed |
+| User Enumeration | ✅ Completed |
+| SMB Share Enumeration | ✅ Completed |
+| LDAP Enumeration | ✅ Completed |
+| DNS Enumeration | ✅ Completed |
+| RustHound Collection | ✅ Completed |
+| Wazuh Telemetry | ✅ Collected |
+| Threat Hunting | ✅ Verified |
+
+---
+
+# Key Findings
+
+- Successfully performed enterprise reconnaissance against the Active Directory environment.
+- Multiple reconnaissance techniques generated endpoint telemetry.
+- Wazuh successfully collected Sysmon events generated during the assessment.
+- Threat Hunting confirmed the presence of reconnaissance-related activity.
+- The collected telemetry provides a strong foundation for subsequent detection engineering and incident response activities.
+
+---
+
+# Next Phase
+
+The next attack simulation focuses on password spraying against Active Directory accounts to evaluate authentication monitoring and detection capabilities.
+
+➡ **02-Password-Spraying**
