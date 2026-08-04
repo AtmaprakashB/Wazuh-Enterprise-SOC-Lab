@@ -1,1 +1,12 @@
+<group name="windows,powershell,custom">
 
+  <rule id="100100" level="10">
+    <if_sid>61603</if_sid>
+    <field name="win.eventdata.image">(?i)powershell.exe</field>
+    <description>Custom Detection - PowerShell Execution</description>
+    <mitre>
+      <id>T1059.001</id>
+    </mitre>
+  </rule>
+
+</group>
