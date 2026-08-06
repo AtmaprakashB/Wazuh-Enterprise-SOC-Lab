@@ -1,4 +1,4 @@
-# Initial Reconnaissance
+# 01 – Initial Reconnaissance
 
 ## Overview
 
@@ -67,7 +67,7 @@ This simulation was performed against the Wazuh Enterprise SOC Lab to validate e
 
 Performed host discovery and service enumeration using Nmap.
 
-**Purpose**
+### Purpose
 
 - Discover live systems
 - Identify open ports
@@ -79,7 +79,7 @@ Performed host discovery and service enumeration using Nmap.
 
 Enumerated SMB services using NetExec.
 
-**Purpose**
+### Purpose
 
 - Identify accessible SMB services
 - Determine domain membership
@@ -89,12 +89,42 @@ Enumerated SMB services using NetExec.
 
 ## 3. User Enumeration
 
-Performed Active Directory user enumeration using enum4linux.
+Performed Active Directory user enumeration using **enum4linux** to identify valid domain user accounts and security groups.
 
-**Purpose**
+### Command
 
-- Discover domain users
-- Enumerate security information
+```bash
+enum4linux -a 10.10.14.11
+```
+
+### Purpose
+
+- Enumerate domain users
+- Identify security groups
+- Discover valid usernames for subsequent password spraying attacks
+- Gather Active Directory account information
+
+### Findings
+
+The enumeration successfully identified multiple Active Directory user accounts, including:
+
+- Administrator
+- Guest
+- vagrant
+- arya.stark
+- eddard.stark
+- catelyn.stark
+- robb.stark
+- sansa.stark
+- brandon.stark
+- rickon.stark
+- hodor
+- jon.snow
+- samwell.tarly
+- jeor.mormont
+- sql_svc
+
+These usernames were later exported into a **users.txt** file and used during the **02-Password-Spraying** attack simulation.
 
 ---
 
@@ -102,7 +132,7 @@ Performed Active Directory user enumeration using enum4linux.
 
 Enumerated available SMB shares.
 
-**Purpose**
+### Purpose
 
 - Identify accessible shared folders
 - Discover potential sensitive data
@@ -113,7 +143,7 @@ Enumerated available SMB shares.
 
 Enumerated Active Directory objects through LDAP.
 
-**Purpose**
+### Purpose
 
 - Discover users
 - Discover groups
@@ -126,7 +156,7 @@ Enumerated Active Directory objects through LDAP.
 
 Performed DNS enumeration.
 
-**Purpose**
+### Purpose
 
 - Identify DNS records
 - Identify domain controllers
@@ -138,7 +168,7 @@ Performed DNS enumeration.
 
 Collected Active Directory relationship data using RustHound.
 
-**Purpose**
+### Purpose
 
 - Identify privilege relationships
 - Enumerate attack paths
@@ -158,9 +188,9 @@ Observed telemetry included:
 - Security event correlation
 - Threat Hunting events
 
-**Note**
-
-Because the attacker and Windows hosts are deployed on the same Host-Only VMware network, reconnaissance traffic is exchanged directly between endpoints. As a result, these activities are primarily observed through endpoint telemetry (Sysmon and Windows Event Logs collected by Wazuh) rather than firewall traffic traversing OPNsense.
+> **Note**
+>
+> Because the attacker and Windows hosts are deployed on the same VMware Host-Only network, reconnaissance traffic is exchanged directly between endpoints rather than traversing OPNsense. Consequently, these activities are primarily observed through endpoint telemetry (Sysmon and Windows Event Logs collected by Wazuh) instead of firewall logs.
 
 ---
 
@@ -168,13 +198,13 @@ Because the attacker and Windows hosts are deployed on the same Host-Only VMware
 
 ## Attack Evidence
 
-- Nmap network scan
-- SMB enumeration
-- User enumeration
+- Nmap network discovery
+- SMB service enumeration
+- Active Directory user enumeration
 - SMB share enumeration
 - LDAP enumeration
 - DNS enumeration
-- RustHound collection
+- Active Directory relationship collection (RustHound)
 
 ## Wazuh Evidence
 
@@ -185,57 +215,57 @@ Because the attacker and Windows hosts are deployed on the same Host-Only VMware
 
 # Screenshots
 
-## Network Discovery
+## 1. Network Discovery
 
-![Nmap](../Screenshots/01-Nmap-Initial-Scan.png)
-
----
-
-## SMB Enumeration
-
-![SMB Enumeration](../Screenshots/02-NetExec-SMB-Enumeration.png)
+![Nmap](Screenshots/01-Nmap-Initial-Scan.png)
 
 ---
 
-## User Enumeration
+## 2. SMB Enumeration
 
-![User Enumeration](../Screenshots/03-enum4linux-User-Enumeration.png)
-
----
-
-## SMB Shares
-
-![SMB Shares](../Screenshots/04-NetExec-SMB-Shares.png)
+![SMB Enumeration](Screenshots/02-NetExec-SMB-Enumeration.png)
 
 ---
 
-## LDAP Enumeration
+## 3. User Enumeration
 
-![LDAP Enumeration](../Screenshots/05-LDAP-Enumeration.png)
-
----
-
-## DNS Enumeration
-
-![DNS Enumeration](../Screenshots/06-DNS-Enumeration.png)
+![User Enumeration](Screenshots/03-enum4linux-User-Enumeration.png)
 
 ---
 
-## RustHound Collection
+## 4. SMB Share Enumeration
 
-![RustHound](../Screenshots/07-RustHound-Collection.png)
-
----
-
-## Wazuh Dashboard
-
-![Dashboard](../Screenshots/08-Wazuh-Dashboard-Overview.png)
+![SMB Shares](Screenshots/04-NetExec-SMB-Shares.png)
 
 ---
 
-## Wazuh Threat Hunting Events
+## 5. LDAP Enumeration
 
-![Threat Hunting](../Screenshots/09-Wazuh-Sysmon-Reconnaissance-Events.png)
+![LDAP Enumeration](Screenshots/05-LDAP-Enumeration.png)
+
+---
+
+## 6. DNS Enumeration
+
+![DNS Enumeration](Screenshots/06-DNS-Enumeration.png)
+
+---
+
+## 7. RustHound Collection
+
+![RustHound](Screenshots/07-RustHound-Collection.png)
+
+---
+
+## 8. Wazuh Dashboard Overview
+
+![Dashboard](Screenshots/08-Wazuh-Dashboard-Overview.png)
+
+---
+
+## 9. Wazuh Threat Hunting Events
+
+![Threat Hunting](Screenshots/09-Wazuh-Sysmon-Reconnaissance-Events.png)
 
 ---
 
@@ -257,16 +287,17 @@ Because the attacker and Windows hosts are deployed on the same Host-Only VMware
 
 # Key Findings
 
-- Successfully performed enterprise reconnaissance against the Active Directory environment.
-- Multiple reconnaissance techniques generated endpoint telemetry.
-- Wazuh successfully collected Sysmon events generated during the assessment.
-- Threat Hunting confirmed the presence of reconnaissance-related activity.
-- The collected telemetry provides a strong foundation for subsequent detection engineering and incident response activities.
+- Successfully identified live hosts, exposed services, SMB shares, Active Directory users, DNS information, and privilege relationships.
+- User enumeration identified valid Active Directory accounts that were later leveraged during the **02-Password-Spraying** attack.
+- Multiple reconnaissance techniques generated endpoint telemetry through Sysmon.
+- Wazuh successfully collected and correlated reconnaissance-related Windows events.
+- Threat Hunting confirmed the presence of reconnaissance activity across monitored endpoints.
+- The collected telemetry establishes a strong baseline for subsequent attack simulations and detection engineering activities.
 
 ---
 
 # Next Phase
 
-The next attack simulation focuses on password spraying against Active Directory accounts to evaluate authentication monitoring and detection capabilities.
+The next attack simulation focuses on password spraying against discovered Active Directory user accounts to evaluate authentication monitoring, brute-force detection, and alert generation.
 
-➡ **02-Password-Spraying**
+➡ **02 – Password Spraying**
