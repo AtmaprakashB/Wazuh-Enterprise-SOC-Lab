@@ -301,9 +301,3 @@ Windows Security Event ID **5136 (Directory Service Object Modified)** was not g
 - The collected telemetry demonstrates Wazuh's ability to detect key Active Directory changes associated with privilege escalation attacks.
 
 ---
-
-# Next Phase
-
-The next attack simulation focuses on **Lateral Movement**, where the elevated privileges obtained during this phase are used to authenticate to additional systems and move throughout the enterprise environment.
-
-➡ **05 – Lateral Movement**
