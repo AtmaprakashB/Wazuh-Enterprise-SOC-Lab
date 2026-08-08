@@ -140,6 +140,13 @@ hashcat -m 13100 kerberoasting.hashes /opt/wordlist/rockyou.txt
 Recovered valid service account credentials.
 
 ---
+## SYSTEM Hashdump
+
+After obtaining `NT AUTHORITY\SYSTEM`, local account password hashes were retrieved using Meterpreter's `hashdump` functionality.
+
+The captured credential material has been **redacted** in the published evidence to prevent exposing reusable password hashes.
+
+![SYSTEM Hashdump - Redacted](Screenshots/05-SYSTEM-Hashdump-Redacted.png)
 
 # Wazuh Detection
 
