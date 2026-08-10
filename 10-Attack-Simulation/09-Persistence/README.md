@@ -2,62 +2,62 @@
 
 ## Overview
 
-This attack simulation demonstrates a Kerberos-based persistence scenario within the isolated Wazuh Enterprise SOC Lab.
+This simulation demonstrates a **Kerberos-based persistence technique** within the isolated Wazuh Enterprise SOC Lab.
 
-The activity started from the previously compromised `WINTERFELL` system in the `north.sevenkingdoms.local` environment. During the previous attack phase, the Administrator NTLM hash was recovered and successfully cracked. The recovered Administrator credential was then used to establish RDP access to WINTERFELL.
+The activity began from the previously compromised `WINTERFELL` system in the `north.sevenkingdoms.local` domain. In the earlier attack phase, the Administrator NTLM hash was recovered and cracked. Using the recovered credential, RDP access was established to WINTERFELL.
 
-After obtaining administrative access, the Kerberos security context of the domain was examined and the `krbtgt` account was identified. The required Kerberos credential material was recovered in the isolated lab environment.
+With administrative access obtained, the Kerberos domain context was examined, and the `krbtgt` account was identified. The required credential material was extracted in the isolated lab environment.
 
-The recovered domain information and `krbtgt` credential material were then used to create a Golden Ticket. The generated ticket was injected into the Windows authentication session and validated through the Windows Kerberos ticket cache.
+This material was then used to forge a **Golden Ticket**, which was injected into the Windows authentication session and validated via the Kerberos ticket cache.
 
-The objective of this exercise is to demonstrate how compromise of the `krbtgt` account can be abused to establish persistent Kerberos authentication within an Active Directory environment and provide practical evidence for SOC investigation.
-
----
-
-# Objectives
-
-- Validate previously obtained Administrator access.
-- Establish RDP access to WINTERFELL.
-- Identify the Active Directory Kerberos domain context.
-- Identify the `krbtgt` account.
-- Recover the required Kerberos credential material in the isolated lab.
-- Create a Golden Ticket.
-- Inject the generated Kerberos ticket into the Windows session.
-- Validate the Kerberos ticket using `klist`.
-- Demonstrate privileged resource access using the forged authentication context.
-- Document the persistence technique with practical evidence.
-- Provide evidence that can be investigated through Wazuh.
+The objective of this exercise is to demonstrate how compromise of the `krbtgt` account enables persistent Kerberos authentication in Active Directory, while also providing practical evidence for SOC investigation.
 
 ---
 
-# MITRE ATT&CK Mapping
+## Objectives
 
-| Tactic | Technique | ID |
-| ---------------- | -------------------------------------------- | --------- |
-| Persistence | Steal or Forge Kerberos Tickets: Golden Ticket | T1558.001 |
-| Credential Access | OS Credential Dumping | T1003 |
-| Credential Access | OS Credential Dumping: NTDS | T1003.003 |
-| Lateral Movement | Use Alternate Authentication Material | T1550 |
+- Validate Administrator access
+- Establish RDP access to WINTERFELL
+- Identify Kerberos domain context
+- Locate the `krbtgt` account
+- Recover Kerberos credential material
+- Create a Golden Ticket
+- Inject the forged ticket into the Windows session
+- Validate ticket with `klist`
+- Demonstrate privileged access using the forged context
+- Document persistence technique with practical evidence
+- Provide SOC evidence for Wazuh investigation
 
 ---
 
-# Lab Environment
+## MITRE ATT&CK Mapping
 
-| Component | Details |
+| Tactic            | Technique                                      | ID        |
+| ----------------- | ---------------------------------------------- | --------- |
+| Persistence       | Steal or Forge Kerberos Tickets: Golden Ticket | T1558.001 |
+| Credential Access | OS Credential Dumping                          | T1003     |
+| Credential Access | OS Credential Dumping: NTDS                    | T1003.003 |
+| Lateral Movement  | Use Alternate Authentication Material          | T1550     |
+
+---
+
+## Lab Environment
+
+| Component           | Details                     |
 | ------------------- | --------------------------- |
-| Attacker Machine | Arch Linux |
-| Initial System | WINTERFELL |
-| Initial IP | `10.10.14.11` |
-| Domain | `north.sevenkingdoms.local` |
-| SIEM | Wazuh |
-| Endpoint Monitoring | Sysmon |
-| Virtualization | VMware Workstation |
-| Remote Access | RDP |
-| Attack Tool | Mimikatz |
+| Attacker Machine    | Arch Linux                  |
+| Initial System      | WINTERFELL                  |
+| Initial IP          | `10.10.14.11`               |
+| Domain              | `north.sevenkingdoms.local` |
+| SIEM                | Wazuh                       |
+| Endpoint Monitoring | Sysmon                      |
+| Virtualization      | VMware Workstation          |
+| Remote Access       | RDP                         |
+| Attack Tool         | Mimikatz                    |
 
 ---
 
-# Attack Scenario
+## Attack Scenario
 
 The persistence activity followed this sequence:
 
@@ -90,50 +90,3 @@ Previously Obtained Administrator Credential
                     │
                     ▼
              Wazuh Investigation
-### Evidence
-
-![Administrator RDP Access](Screenshots/01-Administrator-RDP-Access.png)
-
-**Screenshot Explanation**
-
-The screenshot provides practical evidence of successful administrative access to the WINTERFELL system.
-
----
-
-### Evidence
-
-![Domain Kerberos Context](Screenshots/02-Domain-Kerberos-Context.png)
-
-**Screenshot Explanation**
-
-The screenshot provides practical evidence of the Kerberos security context associated with the `north.sevenkingdoms.local` domain.
-
----
-
-### Evidence
-
-![Golden Ticket Created](Screenshots/03-Golden-Ticket-Created.png)
-
-**Screenshot Explanation**
-
-The screenshot provides practical evidence that the Golden Ticket was successfully created.
-
----
-
-### Evidence
-
-![Golden Ticket Injection](Screenshots/04-Golden-Ticket-Injected.png)
-
-**Screenshot Explanation**
-
-The screenshot provides practical evidence of Golden Ticket injection and subsequent privileged resource access.
-
----
-
-### Evidence
-
-![Kerberos Ticket Validation](Screenshots/05-Kerberos-Ticket-Validation.png)
-
-**Screenshot Explanation**
-
-The screenshot provides practical evidence of the Kerberos ticket being present in the current Windows authentication session.
