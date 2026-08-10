@@ -90,3 +90,61 @@ Previously Obtained Administrator Credential
                     │
                     ▼
              Wazuh Investigation
+
+
+---
+
+## Proof of Concept
+
+### 1. Administrator RDP Access
+
+During the previous attack phase, the Administrator NTLM hash was recovered and cracked. The recovered credential was then used to establish RDP access to the WINTERFELL system.
+
+### Evidence
+
+![Administrator RDP Access](Screenshots/01-Administrator-RDP-Access.png)
+
+**Screenshot Explanation**
+
+The screenshot provides practical evidence of successful administrative access to WINTERFELL.
+
+The RDP session confirms that the previously recovered Administrator credential was successfully used to access the Windows system and establish the privileged context required for the persistence simulation.
+
+---
+
+### 2. Domain Kerberos Context
+
+After obtaining administrative access to WINTERFELL, the Active Directory Kerberos security context was examined.
+
+The `north.sevenkingdoms.local` domain and the `krbtgt` account were identified, along with the credential material required for the Golden Ticket simulation.
+
+### Evidence
+
+![Domain Kerberos Context](Screenshots/02-Domain-Kerberos-Context.png)
+
+**Screenshot Explanation**
+
+The screenshot provides practical evidence of the Kerberos security context associated with the `north.sevenkingdoms.local` domain.
+
+The captured information identifies the domain, domain SID, and `krbtgt` account used during the subsequent Golden Ticket creation stage.
+
+> **Security Note:** Sensitive `krbtgt` credential material should be redacted before publishing this screenshot to a public repository.
+
+---
+
+### 3. Golden Ticket Creation
+
+After obtaining the required domain information and `krbtgt` credential material, a Golden Ticket was generated for the `north.sevenkingdoms.local` domain.
+
+### Evidence
+
+![Golden Ticket Created](Screenshots/03-Golden-Ticket-Created.png)
+
+**Screenshot Explanation**
+
+The screenshot provides practical evidence that the Golden Ticket was successfully created.
+
+The Mimikatz output shows the successful generation of the forged Kerberos ticket and confirms that the resulting ticket was saved as:
+
+```text
+ticket.kirbi
