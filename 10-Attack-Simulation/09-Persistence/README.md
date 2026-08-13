@@ -61,7 +61,6 @@ The objective of this exercise is to demonstrate how compromise of the `krbtgt` 
 
 The persistence activity followed this sequence:
 
-```text
 Previously Obtained Administrator Credential
                     │
                     ▼
@@ -92,7 +91,7 @@ Previously Obtained Administrator Credential
              Wazuh Investigation
 
 
----
+
 
 ## Proof of Concept
 
@@ -110,7 +109,7 @@ The screenshot provides practical evidence of successful administrative access t
 
 The RDP session confirms that the previously recovered Administrator credential was successfully used to access the Windows system and establish the privileged context required for the persistence simulation.
 
----
+
 
 ### 2. Domain Kerberos Context
 
@@ -130,7 +129,7 @@ The captured information identifies the domain, domain SID, and `krbtgt` account
 
 > **Security Note:** Sensitive `krbtgt` credential material should be redacted before publishing this screenshot to a public repository.
 
----
+
 
 ### 3. Golden Ticket Creation
 
@@ -146,5 +145,4 @@ The screenshot provides practical evidence that the Golden Ticket was successful
 
 The Mimikatz output shows the successful generation of the forged Kerberos ticket and confirms that the resulting ticket was saved as:
 
-```text
 ticket.kirbi
