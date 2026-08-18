@@ -48,11 +48,11 @@ Authentication Activity → SSH / PAM → Wazuh Agent → Wazuh Manager → Deco
 ---
 
 # Dashboard Evidence
-![01-Authentication-Overview](Screenshots/01-authentication-overview.png)  
-![02-Authentication-Failures](Screenshots/02-authentication-failures.png)  
-![03-Authentication-Success](Screenshots/03-authentication-success.png)  
-![04-Authentication-Event-Details](Screenshots/04-authentication-event-details.png)  
-![05-Authentication-Timeline](Screenshots/05-authentication-timeline.png)  
+![01-Authentication-Overview](Screenshots/01-authentication-overview.png)
+![02-Authentication-Failures](Screenshots/02-authentication-failures.png)
+![03-Authentication-Success](Screenshots/03-authentication-success.png)
+![04-Authentication-Event-Details](Screenshots/04-authentication-event-details.png)
+![05-Authentication-Timeline](Screenshots/05-authentication-timeline.png)
 
 ---
 
