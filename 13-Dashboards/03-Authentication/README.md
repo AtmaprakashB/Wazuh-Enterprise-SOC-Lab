@@ -226,4 +226,3 @@ In this lab, Wazuh Discover was used to analyze SSH and PAM authentication activ
 Workflow: Authentication Telemetry → Event Classification → Success/Failure → Source/User Identification → Timeline Analysis → Security Correlation → SOC Investigation → Incident Response  
 
 This demonstrates how Wazuh authentication telemetry serves as a critical evidence source for SOC monitoring, threat detection, investigation, and incident response.
-
