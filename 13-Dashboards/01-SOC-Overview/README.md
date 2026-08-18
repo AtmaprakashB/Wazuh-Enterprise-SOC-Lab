@@ -71,15 +71,13 @@ Disconnected agents indicate reduced visibility and require investigation.
 | Medium   | 214    | 7–11       |
 | Low      | 3,789  | 0–6        |
 
-This distribution helps prioritize investigations.  
-
 ---
 
 # Endpoint Security
 Capabilities include:  
 - Configuration Assessment  
 - Malware Detection  
-- File Integrity Monitoring (file modifications, permission changes, ownership changes, attribute/content changes)  
+- File Integrity Monitoring  
 
 ---
 
@@ -106,60 +104,29 @@ Integrations include:
 ---
 
 # Dashboard Evidence
-![01-SOC-Overview](Screenshots/01-soc-overview.png)
-
-The screenshot shows agent connectivity, alert severity, endpoint security, threat intelligence, security operations, and cloud security capabilities.
+![01-SOC-Overview](Screenshots/01-soc-overview.png)  
+![02-Security-Events](Screenshots/02-security-events.png)  
+![03-Authentication-Monitoring](Screenshots/03-authentication-monitoring.png)  
+![04-Endpoint-Security](Screenshots/04-endpoint-security.png)  
+![05-Threat-Detection](Screenshots/05-threat-detection.png)  
+![06-Incident-Monitoring](Screenshots/06-incident-monitoring.png)  
 
 ---
 
 # Analyst Workflow
-SOC Overview  
-    |  
-    v  
-Review Agent Status  
-    |  
-    v  
-Review Alert Severity  
-    |  
-    v  
-Identify High / Critical Alerts  
-    |  
-    v  
-Open Security Events  
-    |  
-    v  
-Investigate Endpoint  
-    |  
-    v  
-Threat Hunting  
-    |  
-    v  
-MITRE ATT&CK Analysis  
-    |  
-    v  
-Incident Response  
+SOC Overview → Review Agent Status → Review Alert Severity → Identify High/Critical Alerts → Security Events → Endpoint Investigation → Threat Hunting → MITRE ATT&CK → Incident Response  
 
 ---
 
 # Dashboard Investigation Examples
-**Alert Investigation**  
-High Severity Alert → Security Event → Alert Details → Source/Destination → Rule Analysis → MITRE ATT&CK  
-
-**Threat Hunting**  
-Search Telemetry → Filter Events → Investigate Activity → Correlate Events → Determine Risk  
-
-**Endpoint Investigation**  
-Configuration Assessment → Malware Detection → File Integrity Monitoring  
+- **Alert Investigation:** High Severity Alert → Security Event → Alert Details → Rule Analysis → MITRE ATT&CK  
+- **Threat Hunting:** Search Telemetry → Filter Events → Investigate Activity → Correlate Events → Determine Risk  
+- **Endpoint Investigation:** Config Assessment → Malware Detection → File Integrity Monitoring  
 
 ---
 
 # Relationship to Incident Response
 SOC Overview → Alert Identification → Investigation → Containment → Eradication → Recovery  
-
----
-
-# Relationship to SSH Brute-Force Incident
-Kali Linux (192.168.31.150) → SSH Brute Force → syskey (192.168.31.174) → Failed Auth Events → Wazuh Agent → Wazuh Manager → Rule 100100 → SSH Brute-Force Alert → Threat Hunting → Active Response → Incident Response  
 
 ---
 
@@ -213,13 +180,12 @@ Kali Linux (192.168.31.150) → SSH Brute Force → syskey (192.168.31.174) → 
 
 # Key Takeaways
 - Wazuh Overview dashboard provides centralized SOC monitoring.  
-- Agent connectivity can be tracked via Agents Summary.  
+- Agent connectivity tracked via Agents Summary.  
 - Alert severity enables prioritization of events.  
 - Endpoint Security adds visibility into system changes.  
 - Threat Intelligence supports proactive hunting and adversary analysis.  
 - MITRE ATT&CK provides standardized context.  
 - Dashboard serves as the starting point for alert triage and incident investigation.  
-- Wazuh connects monitoring, detection, investigation, and response.  
 
 ---
 
@@ -252,4 +218,3 @@ The SOC Overview dashboard provides a centralized operational view of the Wazuh 
 It demonstrates visibility into agents, alerts, endpoint security, threat intelligence, security operations, and cloud security.  
 This establishes the Wazuh Dashboard as the primary visualization and monitoring layer of the Wazuh Enterprise SOC Lab.  
 SOC Overview serves as the initial point for analysts to identify events, prioritize alerts, investigate endpoints, perform threat hunting, analyze MITRE ATT&CK mappings, and initiate incident-response workflows.
-
